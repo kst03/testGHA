@@ -1,0 +1,24 @@
+name: Loading tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      stack_id:
+        description: id of the stack to deploy
+        required: true
+        type: choice
+        options:
+          - prod
+          - dev
+          - test
+      environment:
+        description: The template to deploy
+        required: true
+        type: choice
+        options:
+          - math_nation
+          - stemscopes
+      dashboard_id:
+        description: Id of the AWS QuickSight dashboard
+        required: false
+        type: string
