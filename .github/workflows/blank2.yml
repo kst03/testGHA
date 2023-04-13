@@ -1,0 +1,41 @@
+name: Start tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      stack_id:
+        description: id of the stack to deploy
+        required: true
+        type: choice
+        options:
+          - prod
+          - dev
+          - test
+      environment:
+        description: environment
+        required: true
+        type: choice
+        options:
+          - math_nation
+          - stemscopes
+      aws_profile:
+        description: aws profile
+        required: true
+        type: choice
+        options:
+          - us-west-2
+          - us-west-1
+          - us-east-1
+          - us-east-2
+
+jobs:
+  deploy-tests:
+    name: Deploy tests
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start tests
+        run: |
+          ./dbt/bin/test.sh -d ${{github.event.inputs.environment}} -x ${{github.event.inputs.stack_id}} -p ${{github.event.inputs.aws_profile}}
